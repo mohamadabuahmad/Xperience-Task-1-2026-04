@@ -24,3 +24,17 @@ wasender:
 
 server:
   port: 8280
+  servlet:
+    session:
+      cookie:
+        same-site: lax
+        http-only: true
+        secure: false
+        name: HERO_SESSION
+      timeout: 7d
+
+app:
+  cors:
+    allowed-origin: "http://localhost:5171"
+  invite:
+    base-url: "http://localhost:5171/invite"

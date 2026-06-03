@@ -1,35 +1,54 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { AuthProvider } from "./rsvp/AuthContext";
+import { Nav } from "./rsvp/Nav";
+import { RequireAuth } from "./rsvp/RequireAuth";
+import { LoginPage } from "./rsvp/pages/LoginPage";
+import { SignupPage } from "./rsvp/pages/SignupPage";
+import { EventsListPage } from "./rsvp/pages/EventsListPage";
+import { EventCreatePage } from "./rsvp/pages/EventCreatePage";
+import { EventDashboardPage } from "./rsvp/pages/EventDashboardPage";
+import { InviteePage } from "./rsvp/pages/InviteePage";
+import "./rsvp/styles.css";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <BrowserRouter>
+      <AuthProvider>
+        <div className="app-shell">
+          <Nav />
+          <Routes>
+            <Route path="/" element={<Navigate to="/host/events" replace />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route path="/invite/:token" element={<InviteePage />} />
+            <Route
+              path="/host/events"
+              element={
+                <RequireAuth>
+                  <EventsListPage />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/host/events/new"
+              element={
+                <RequireAuth>
+                  <EventCreatePage />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/host/events/:id"
+              element={
+                <RequireAuth>
+                  <EventDashboardPage />
+                </RequireAuth>
+              }
+            />
+            <Route path="*" element={<Navigate to="/host/events" replace />} />
+          </Routes>
+        </div>
+      </AuthProvider>
+    </BrowserRouter>
+  );
 }
-
-export default App
