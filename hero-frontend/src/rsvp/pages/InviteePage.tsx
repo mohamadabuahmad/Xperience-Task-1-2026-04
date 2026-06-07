@@ -36,29 +36,34 @@ export function InviteePage() {
   };
 
   if (error) return <div className="card"><div className="error">{error}</div></div>;
-  if (!view) return <div className="card"><p className="muted">Loading…</p></div>;
+  if (!view) return <div className="card"><p className="loading">Loading your invitation…</p></div>;
 
   const canRsvp = !view.locked && view.eventState !== "CANCELLED";
 
   return (
-    <div className="card">
-      <h2 style={{ marginBottom: 4 }}>{view.eventTitle}</h2>
-      <div className="muted" style={{ color: "var(--muted)", fontSize: 13 }}>
+    <div className="invite-card">
+      <div className="invite-eyebrow">You're Invited</div>
+      <h2>{view.eventTitle}</h2>
+      <div className="invite-meta">
         {new Date(view.eventStartTime).toLocaleString()} · {view.eventLocation}
       </div>
-      {view.eventDescription && <p style={{ marginTop: 12 }}>{view.eventDescription}</p>}
-      <hr style={{ borderColor: "var(--border)", margin: "16px 0" }} />
-      <p style={{ fontSize: 13, color: "var(--muted)" }}>Invited as <strong>{view.invitedEmail}</strong></p>
-      <p>{statusLine(view.currentStatus)}</p>
+      {view.eventDescription && <p>{view.eventDescription}</p>}
+      <hr />
+      <p style={{ fontSize: 13, marginBottom: 6 }}>
+        Invited as <strong>{view.invitedEmail}</strong>
+      </p>
+      <p style={{ margin: 0 }}>{statusLine(view.currentStatus)}</p>
       {view.eventState === "CANCELLED" && (
-        <p className="error">This event has been cancelled.</p>
+        <p className="error" style={{ marginTop: 18 }}>This event has been cancelled.</p>
       )}
       {view.locked && view.eventState !== "CANCELLED" && (
-        <p className="error">The event has started. RSVPs are locked.</p>
+        <p className="error" style={{ marginTop: 18 }}>The event has started. RSVPs are locked.</p>
       )}
       {canRsvp && (
         <>
-          <p style={{ marginTop: 16, marginBottom: 0, color: "var(--muted)", fontSize: 13 }}>Your response:</p>
+          <p style={{ marginTop: 22, marginBottom: 0, color: "var(--muted)", fontSize: 12, letterSpacing: "0.14em", textTransform: "uppercase" }}>
+            Your reply
+          </p>
           <div className="choice-row">
             <button onClick={() => choose("YES")} disabled={submitting}>Yes</button>
             <button onClick={() => choose("MAYBE")} disabled={submitting} className="secondary">Maybe</button>

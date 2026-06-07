@@ -25,7 +25,7 @@ export function EventsListPage() {
         <Link to="/host/events/new"><button>+ New event</button></Link>
       </div>
       {error && <div className="error">{error}</div>}
-      {events === null && !error && <p className="muted">Loading…</p>}
+      {events === null && !error && <p className="loading">Loading your events…</p>}
       {events && events.length === 0 && <p className="muted">No events yet. Create one to get started.</p>}
       {events && events.length > 0 && (
         <table>

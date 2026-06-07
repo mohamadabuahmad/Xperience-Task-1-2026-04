@@ -77,7 +77,7 @@ export function EventDashboardPage() {
   if (!event || !dash) {
     return (
       <div className="card">
-        {error ? <div className="error">{error}</div> : <p className="muted">Loading…</p>}
+        {error ? <div className="error">{error}</div> : <p className="loading">Loading dashboard…</p>}
         <button className="secondary" onClick={() => nav("/host/events")}>Back</button>
       </div>
     );
